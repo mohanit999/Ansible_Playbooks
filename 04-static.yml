@@ -1,0 +1,11 @@
+---
+- name: update static html and restared
+  hosts: all
+  become: yes
+
+  tasks:
+   - name: Ensure static file updated
+     copy:
+      src: static.html
+      dest: /var/www/html
+...

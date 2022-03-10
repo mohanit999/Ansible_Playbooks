@@ -1,0 +1,32 @@
+---
+- name: web servers update
+  hosts: all
+  become: yes
+
+  tasks:
+   - name: install Apache
+     yum:
+      name: httpd
+      name: git
+      state: present
+
+   - name: start the Apache
+     service:
+       name: httpd
+       state: started
+
+   - name: enable the Apache
+     service:
+       name: httpd
+       enabled: yes
+
+   - name: hosting ecomm site
+     get_url:
+       dest: /var/www/html
+       url: https://github.com/ravi2krishna/ecomm.git
+
+   - name: restart the Apache
+     service:
+       name: httpd
+       state: restarted
+...

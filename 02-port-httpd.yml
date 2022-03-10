@@ -1,0 +1,21 @@
+---
+- name: update port in config to permissive and restared
+  hosts: centos
+  become: yes
+
+  tasks:
+   - name: Ensure Apache httpd config updated
+     copy:
+      src: httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+
+   - name: Ensure selinux permission
+     selinux:
+       policy: targeted
+       state: permissive
+
+   - name: restart the Apache httpd
+     service:
+       name: httpd
+       state: restarted
+...

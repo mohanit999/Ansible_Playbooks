@@ -1,0 +1,12 @@
+---
+- name: update custom html and restared
+  hosts: all
+  become: yes
+  user_name: mohan
+
+  tasks:
+   - name: Ensure custom file updated
+     template:
+      src: custom.j2
+      dest: /var/www/html/custom.html
+...

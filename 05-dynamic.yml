@@ -1,0 +1,11 @@
+---
+- name: update dynamic html and restared
+  hosts: all
+  become: yes
+
+  tasks:
+   - name: Ensure dynamic file updated
+     template:
+      src: dynamic.j2
+      dest: /var/www/html/dynamic.html
+...

@@ -1,0 +1,41 @@
+---
+- name: update port in config to permissive and restared
+  hosts: centos
+  become: yes
+  vars:
+   http_port: 8080
+
+  tasks:
+   - name: Ensure Apache httpd config updated
+     template:
+      src: httpd.j2
+      dest: /etc/httpd/conf/httpd.conf
+     notify:
+     - Restart Apache
+
+   - name: Ensure selinux permission
+     selinux:
+       policy: targeted
+       state: permissive
+     when: ansible_distribution == "CentOS"
+
+   - name: php install
+     yum:
+       name: php
+       state: present
+     notify:
+     - Restart Apache
+
+   - name: update php
+     copy:
+       src: date.php
+       dest: /var/www/html
+     notify:
+     - Restart Apache
+
+  handlers:
+   - name: Restart Apache
+     service:
+       name: httpd
+       state: restarted
+...
